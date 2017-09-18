@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: common-header" />
+<body>
+
+<div th:replace="common/navbar :: common-navbar" />
+
+<div class="container">
+
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <h1 class="text-center" th:text="#{copy.h1.text}"></h1>
+                    <p class="lead" th:text="#{copy.p.lead}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+        <!-- FOOTER -->
+        <footer>
+            <p class="pull-right"><a href="/">Back to top</a></p>
+            <p>&copy; 2013 Company, Inc. &middot; <a href="/">Privacy</a> &middot; <a href="/">Terms and Conditions</a></p>
+        </footer>
+
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<div th:replace="common/header :: before-body-scripts" />
+</body>
+</html>
