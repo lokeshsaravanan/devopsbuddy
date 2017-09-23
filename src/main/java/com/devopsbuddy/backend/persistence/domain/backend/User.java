@@ -4,14 +4,17 @@ import com.sun.javafx.beans.IDProperty;
 import org.hibernate.annotations.ValueGenerationType;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     /** The serial version UID for Serializable classes */
     public static final long serialVersionUID = 1L;
@@ -82,9 +85,11 @@ public class User implements Serializable {
         return username;
     }
 
+
     public void setUsername(String username) {
         this.username = username;
     }
+
 
     public String getPassword() {
         return password;
@@ -187,6 +192,29 @@ public class User implements Serializable {
 
     public void setPlan(Plan plan) {
         this.plan = plan;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        for (UserRole userRole : userRoles) {
+            grantedAuthorities.add(new Authority(userRole.getRole().getName()));
+        }
+        return grantedAuthorities;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
 }
