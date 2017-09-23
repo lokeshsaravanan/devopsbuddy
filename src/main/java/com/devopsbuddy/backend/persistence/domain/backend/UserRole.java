@@ -21,6 +21,11 @@ public class UserRole implements Serializable {
     @JoinColumn(name="role_id")
     private Role role;
 
+    public UserRole(User user, Role role) {
+        this.user = user;
+        this.role = role;
+    }
+
     public User getUser() {
         return user;
     }
