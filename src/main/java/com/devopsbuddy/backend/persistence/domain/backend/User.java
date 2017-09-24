@@ -1,9 +1,6 @@
 package com.devopsbuddy.backend.persistence.domain.backend;
 
-import com.sun.javafx.beans.IDProperty;
-import org.hibernate.annotations.ValueGenerationType;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +26,10 @@ public class User implements Serializable, UserDetails {
     @Column(unique = true)
     private String email;
 
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
 
     private String password;
 
@@ -63,16 +64,10 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    public User()
-    {
+    /**
+     * Empty Constructor
+     */
+    public User()   {
 
     }
 
@@ -89,6 +84,21 @@ public class User implements Serializable, UserDetails {
         return username;
     }
 
+    public Set<PasswordResetToken> getPasswordResetTokens() {
+        return passwordResetTokens;
+    }
+
+    public void setPasswordResetTokens(Set<PasswordResetToken> passwordResetTokens) {
+        this.passwordResetTokens = passwordResetTokens;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 
     public void setUsername(String username) {
         this.username = username;
