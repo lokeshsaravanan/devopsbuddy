@@ -17,10 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserIntegrationTest extends AbstractIntegrationTest {
+public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Rule
     public TestName testName = new TestName();
@@ -91,12 +92,39 @@ public class UserIntegrationTest extends AbstractIntegrationTest {
         }
     }
 
+    @Test
+    public void findUserByEmail()
+    {
+        User newUser = createUser(testName);
+        userRepository.save(newUser);
 
+        User newlySearchedUser = userRepository.findByEmail(newUser.getEmail());
 
+        Assert.assertNotNull(newlySearchedUser);
+        Assert.assertNotNull(newlySearchedUser.getId());
+
+    }
 
     @Test
     public void testDeleteUser() throws Exception {
         User basicUser = createUser(testName);
         userRepository.delete(basicUser.getId());
     }
+
+//    @Test
+//    public void testUpdateNewPassword() throws Exception {
+//        User user = createUser(testName);
+//        Assert.assertNotNull(user);
+//        Assert.assertNotNull(user.getId());
+//
+//        String newPassword = UUID.randomUUID().toString();
+//
+//        userRepository.updatePassword(user.getId(),newPassword);
+//
+//        user = userRepository.findOne(user.getId());
+//
+//        Assert.assertNotNull(user);
+//        Assert.assertEquals(newPassword,user.getPassword());
+//
+//    }
 }

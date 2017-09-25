@@ -7,6 +7,8 @@ import com.devopsbuddy.backend.persistence.repositories.PlanRepository;
 import com.devopsbuddy.backend.persistence.repositories.RoleRepository;
 import com.devopsbuddy.backend.persistence.repositories.UserRepository;
 import com.devopsbuddy.enums.PlansEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class UserService {
 
+    /**The application logger **/
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+    
     @Autowired
     private RoleRepository roleRepository;
 
@@ -63,6 +68,13 @@ public class UserService {
         user = userRepository.save(user);
 
         return user;
+    }
+
+    @Transactional
+    public void updatePassword(long userId, String password) {
+        password = passwordEncoder.encode(password);
+        userRepository.updatePassword(userId,password);
+        LOG.debug("Password updated for user ID"+userId);
     }
 
 }
