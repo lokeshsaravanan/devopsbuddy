@@ -1,6 +1,9 @@
 package com.devopsbuddy.utils;
 
 import com.devopsbuddy.backend.persistence.domain.backend.User;
+import com.devopsbuddy.web.controllers.ForgotMyPasswordController;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class UserUtils {
 
@@ -26,5 +29,13 @@ public class UserUtils {
         user.setEnabled(true);
         user.setEmail(email);
         return user;
+    }
+
+    public static String createPasswordResetUrl(HttpServletRequest request, long userId, String token) {
+        String passwordResetURL = request.getScheme()+ "://"+ request.getServerName()+":"+
+                                    request.getServerPort()+request.getContextPath()+ ForgotMyPasswordController.CHANGE_PASSWORD_PATH+
+                                    "?id="+userId+
+                                    "&token="+token;
+        return passwordResetURL;
     }
 }
