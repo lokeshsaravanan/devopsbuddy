@@ -49,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/console/**",
             ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
             ForgotMyPasswordController.EMAIL_ADDRESS_VIEW_NAME,
+            ForgotMyPasswordController.CHANGE_PASSWORD_VIEW_NAME,
+            ForgotMyPasswordController.CHANGE_PASSWORD_PATH
     };
 
 
