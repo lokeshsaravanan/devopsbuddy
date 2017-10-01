@@ -180,7 +180,6 @@ public class ForgotMyPasswordController {
         userService.updatePassword(userId, password);
         LOG.info("Password successfully updated for user {}", user.getUsername());
 
-        model.addAttribute(PASSWORD_RESET_ATTRIBUTE_NAME, "true");
 
         return CHANGE_PASSWORD_VIEW_NAME;
     }
