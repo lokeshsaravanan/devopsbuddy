@@ -1,11 +1,9 @@
 package com.devopsbuddy.backend.persistence.domain.backend;
 
 import com.devopsbuddy.backend.persistence.converters.LocalDateTimeAttributeConverter;
-import com.sun.javafx.beans.IDProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+
 
 import javax.persistence.*;
 import java.io.Serializable;

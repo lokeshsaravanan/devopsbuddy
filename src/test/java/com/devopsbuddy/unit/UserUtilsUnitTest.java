@@ -1,11 +1,16 @@
 package com.devopsbuddy.unit;
 
+import com.devopsbuddy.backend.persistence.domain.backend.User;
 import com.devopsbuddy.utils.UserUtils;
 import com.devopsbuddy.web.controllers.ForgotMyPasswordController;
+import com.devopsbuddy.web.domain.frontend.BasicAccountPayload;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
+
 
 import java.util.UUID;
 
@@ -13,8 +18,13 @@ public class UserUtilsUnitTest {
 
     private MockHttpServletRequest mockHttpServletRequest;
 
+    private PodamFactory podamFactory;
+
     @Before
-    public void init() { mockHttpServletRequest = new MockHttpServletRequest();}
+    public void init() {
+        mockHttpServletRequest = new MockHttpServletRequest();
+        podamFactory = new PodamFactoryImpl();
+    }
 
     @Test
     public void testPasswordResetEmailUrlConstruction() throws Exception {
@@ -24,10 +34,29 @@ public class UserUtilsUnitTest {
 
         long userId= 123456;
 
-        String expectedURL = "http://localhost:8080"+ ForgotMyPasswordController.CHANGE_PASSWORD_PATH+"?id="+userId+"&token"+token;
+        String expectedURL = "http://localhost:8080"+ ForgotMyPasswordController.CHANGE_PASSWORD_PATH+"?id="+userId+"&token="+token;
 
         String actualUrl = UserUtils.createPasswordResetUrl(mockHttpServletRequest,userId,token);
 
         Assert.assertEquals(expectedURL,actualUrl);
+    }
+
+        @Test
+        public void mapWebUserToDomainUser() {
+        BasicAccountPayload webUser = podamFactory.manufacturePojoWithFullData(BasicAccountPayload.class);
+        webUser.setEmail("me@example.com");
+
+        //System Printing on the console.
+        System.out.println(webUser.toString());
+        User user = UserUtils.fromWebUserToDomainUser(webUser);
+
+        Assert.assertNotNull(user);
+
+        Assert.assertEquals(webUser.getUsername(),user.getUsername());
+        Assert.assertEquals(webUser.getCountry(),user.getCountry());
+        Assert.assertEquals(webUser.getPassword(),user.getPassword());
+        Assert.assertEquals(webUser.getEmail(),user.getEmail());
+        //Similarly check all fields.
+
     }
 }
